@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package ad;
+option go_package = "lesson9/homework/internal/ports/grpc";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service AdService {
+  rpc CreateAd(CreateAdRequest) returns (AdResponse) {}
+  rpc ChangeAdStatus(ChangeAdStatusRequest) returns (AdResponse) {}
+  rpc UpdateAd(UpdateAdRequest) returns (AdResponse) {}
+  rpc GetAd(GetAdRequest) returns (AdResponse) {}
+  rpc DeleteAd(DeleteAdRequest) returns (google.protobuf.Empty) {}
+  rpc ListAds(ListAdsRequest) returns (ListAdResponse) {}
+  rpc SearchAds(SearchAdsRequest) returns (ListAdResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (UserResponse) {}
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse) {}
+  rpc GetUser(GetUserRequest) returns (UserResponse) {}
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty) {}
+}
+
+message CreateAdRequest {
+  string title = 1;
+  string text = 2;
+  int64 user_id = 3;
+}
+
+message ChangeAdStatusRequest {
+  int64 ad_id = 1;
+  int64 user_id = 2;
+  bool published = 3;
+}
+
+message UpdateAdRequest {
+  int64 ad_id = 1;
+  string title = 2;
+  string text = 3;
+  int64 user_id = 4;
+}
+
+message GetAdRequest {
+  int64 id = 1;
+}
+
+message DeleteAdRequest {
+  int64 ad_id = 1;
+  int64 author_id = 2;
+}
+
+message ListAdsRequest {
+  bool published = 1;
+  int64 user_id = 2;
+  string creation_time = 3;
+}
+
+message SearchAdsRequest {
+  string pattern = 1;
+}
+
+message AdResponse {
+  int64 id = 1;
+  string title = 2;
+  string text = 3;
+  int64 author_id = 4;
+  bool published = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message ListAdResponse {
+  repeated AdResponse list = 1;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message UpdateUserRequest {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UserResponse {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message GetUserRequest {
+  int64 id = 1;
+}
+
+message DeleteUserRequest {
+  int64 id = 1;
+}
